@@ -11,7 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 
-
+Route::Route::get('/dash', function () { return view('home'); })->name('home')
 Route::get('/', function () { return view('home'); })->name('home');
 
 

@@ -26,12 +26,8 @@ class UserController extends Controller
         return view('users.create', compact('roles'));
     }
 
-public function person()
-{
-     $authors = User::role('author')->with('articles')->get();
 
-    return view('users.person', compact('authors'));
-}
+
     public function store(Request $request)
     {
         $request->validate([
@@ -68,4 +64,32 @@ public function person()
 
         return redirect()->back()->with('success', 'Роль успешно изменена');
     }
+
+public function person()
+{
+    $users = User::role('author')->with('editorials')->get();
+    return view('person', compact('users'));
+}
+
+public function authorsIndex(Request $request)
+{
+    $search = $request->input('search');
+
+    $users = User::role('author')
+        ->when($search, function ($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%")
+              ->orWhereHas('editorials', function ($query) use ($search) {
+                  $query->where('status', 'published')
+                        ->where('title_kk', 'like', "%{$search}%");
+              });
+        })
+        ->with(['editorials' => function ($query) {
+            $query->where('status', 'published');
+        }])
+        ->get();
+
+    return view('person', compact('users', 'search'));
+}
+
+
 }

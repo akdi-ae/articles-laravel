@@ -24,10 +24,13 @@ class AuthController extends Controller
             $user = Auth::user();
 
 
-        if ($user->role === 'admin') {
-            return redirect()->route('admin.dashboard');
-        }
-
+            if ($user->hasRole('admin')) {
+                return redirect()->route('admin.dashboard');
+            } elseif ($user->hasRole('editor')) {
+                return redirect()->route('editor.dashboard');
+            } elseif ($user->hasRole('reviewer')) {
+                return redirect()->route('reviewer.dashboard');
+            }
 
             return redirect()->route('dashboard2');
         }
@@ -47,6 +50,8 @@ class AuthController extends Controller
     }
     public function profile()
     {
-        return view('profile');
+        $user = auth()->user();
+        $editorials = $user->editorials()->latest()->get(); // assuming relationship exists
+        return view('profile', compact('user', 'editorials'));
     }
 }

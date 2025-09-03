@@ -55,4 +55,5 @@ public function editorials()
     $editorials = Editorial::where('status', 'editor_approved')->latest()->get();
     return view('editorials.admin', compact('editorials'));
 }
+
 }

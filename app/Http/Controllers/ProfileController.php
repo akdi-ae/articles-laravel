@@ -16,13 +16,13 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        $user = $request->user();
+         $user = auth()->user();
 
-    return view('profile.edit', [
-        'user' => $user,
-        'errors' => session()->get('errors', new \Illuminate\Support\ViewErrorBag)
-    ]);
-    }
+    // Берем последнюю статью пользователя (или первую, если важно)
+    $editorials = $user->editorials()->latest()->get();
+
+    return view('profile.edit', compact('user', 'editorials'));
+}
 
     /**
      * Update the user's profile information.

@@ -25,7 +25,16 @@ return new class extends Migration
         $table->string('author_en')->nullable();
 
         $table->text('content')->nullable();
-        $table->enum('status', ['draft', 'submitted'])->default('submitted');
+       $table->enum('status', [
+    'draft',
+    'submitted',
+    'editor_approved',
+    'editor_rejected',
+    'admin_approved',
+    'admin_rejected',
+    'reviewed',
+    'published'
+])->default('submitted');
         $table->string('file_path')->nullable();
 
         $table->timestamps();

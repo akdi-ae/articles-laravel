@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class RoleMiddleware
 {
@@ -16,10 +17,10 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, $role): Response
     {
-         $user = Auth::user();
-        if (!$user || $user->role !== $role) {
-            abort(403);
-        }
-        return $next($request);
+        if (! $request->user() || ! $request->user()->hasRole($role)) {
+        abort(403); // запрещаем доступ
     }
+
+    return $next($request);
+}
 }

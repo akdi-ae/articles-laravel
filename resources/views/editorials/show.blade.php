@@ -22,12 +22,24 @@
         <div class="p-4 border rounded-lg bg-gray-50">
             <p class="font-medium text-gray-800 mb-2">📎 Прикреплённый файл:</p>
 
+            @php
+                $extension = strtolower(pathinfo($editorial->file_path, PATHINFO_EXTENSION));
+            @endphp
 
-            @if(Str::endsWith($editorial->file_path, ['.jpg', '.jpeg', '.png', '.gif']))
+            {{-- Если картинка --}}
+            @if(in_array($extension, ['jpg','jpeg','png','gif']))
                 <img src="{{ asset('storage/' . $editorial->file_path) }}"
                      alt="Документ" class="rounded-lg max-h-96 mb-3">
             @endif
 
+            {{-- Если PDF --}}
+            @if($extension === 'pdf')
+                <iframe src="{{ asset('storage/' . $editorial->file_path) }}"
+                        class="w-full h-96 rounded-lg mb-3"
+                        frameborder="0"></iframe>
+            @endif
+
+            {{-- Кнопка скачивания для всех типов --}}
             <a href="{{ $fileUrl }}" target="_blank"
                class="inline-flex items-center px-3 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
                 Скачать файл

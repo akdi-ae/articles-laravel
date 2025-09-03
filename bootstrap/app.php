@@ -13,20 +13,26 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
 
-    $middleware->alias([
-        'locale' => LocaleMiddleware::class,
-    ]);
+        // Алиасы для middleware
+        $middleware->alias([
+            'locale' => LocaleMiddleware::class,
+        ]);
 
+        // Группы middleware
+        $middleware->group('web', [
+            \Illuminate\Cookie\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            LocaleMiddleware::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ]);
 
-    $middleware->group('web', [
-        \Illuminate\Cookie\Middleware\EncryptCookies::class,
-        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-        \Illuminate\Session\Middleware\StartSession::class,
-        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        LocaleMiddleware::class,
-        \Illuminate\Routing\Middleware\SubstituteBindings::class,
-    ]);
-})
+        $middleware->group('api', [
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ]);
+    })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
-    })->create();
+    })
+    ->create();

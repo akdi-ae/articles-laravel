@@ -13,24 +13,25 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
 
 </head>
-<body class="antialiased bg-gray-50 text-gray-900">
-
-
-    <header class="fixed top-0 left-0 w-full bg-white/90 backdrop-blur-md shadow z-50">
+<header class="fixed top-0 left-0 w-full bg-white/90 backdrop-blur-md shadow z-50">
     <nav id="navbar"
-     class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent">
-    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-        <img src="logo-qyzpu.jpg" alt="Logo" class="w-8 h-8 object-contain">
-        <div class="text-lg font-bold text-indigo-600 tracking-wide">QyzPU</div>
+         class="transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-3 md:py-4">
+            <img src="logo-qyzpu.jpg" alt="Logo" class="w-8 h-8 object-contain">
+            <div class="text-lg font-bold text-indigo-600 tracking-wide">QyzPU</div>
 
-        <div class="hidden md:flex gap-6 text-lg font-medium">
-            <a href="/" class="hover:text-indigo-600">{{ __("Негізгі бет")}}</a>
-            <a href="/vipusk" class="hover:text-indigo-600">{{ __("Басты шығарылым")}}</a>
-            <a href="/metod" class="hover:text-indigo-600">{{ __("metod")}}</a>
-            <a href="/redac" class="hover:text-indigo-600">{{ __("Редакция")}}</a>
-            <a href="/editorials" class="hover:text-indigo-600">{{ __("Журналдар")}}</a>
-            <a href="/person" class="hover:text-indigo-600">{{ __("Авторлар")}}</a>
-        </div>
+            <div class="hidden md:flex gap-6 text-lg font-medium">
+                <a href="/" class="hover:text-indigo-600">{{ __("Негізгі бет")}}</a>
+                <a href="/vipusk" class="hover:text-indigo-600">{{ __("Басты шығарылым")}}</a>
+                <a href="/published" class="hover:text-indigo-600">{{ __("Журналдар")}}</a>
+                <a href="/person" class="hover:text-indigo-600">{{ __("Авторлар")}}</a>
+@hasanyrole('author|admin|editor')
+                <a href="/metod" class="hover:text-indigo-600">{{ __("metod")}}</a>
+                @endhasanyrole
+                @hasanyrole('author|admin')
+                <a href="/redac" class="hover:text-indigo-600">{{ __("Редакция")}}</a>
+@endhasanyrole
+            </div>
 
         <div class="flex items-center gap-2 text-lg font-medium">
             <a class="@if(App::getLocale()=='kk') text-indigo-600 font-bold @else text-gray-750 hover:text-indigo-500 @endif"
@@ -53,7 +54,15 @@
         @auth
             <div class="flex items-center gap-4">
                 <a href="{{ route('profile.edit') }}" class="text-gray-700 hover:text-indigo-600">{{ __('Профиль')}}</a>
-                <a href="{{ route('settings') }}" class="text-gray-700 hover:text-indigo-600">{{ __('Настройки')}}</a>
+@role('editor')
+                <a href="{{ route('editor.dashboard') }}" class="text-gray-700 hover:text-indigo-600">{{ __('Админка')}}</a>
+                @endrole
+                @role('reviewer')
+                <a href="{{ route('reviewer.dashboard') }}" class="text-gray-700 hover:text-indigo-600">{{ __('Админка')}}</a>
+                @endrole
+                @role('admin')
+                <a href="{{ route('admin.dashboard') }}" class="text-gray-700 hover:text-indigo-600">{{ __('Админка')}}</a>
+                @endrole
                 <form method="POST" action="{{ route('logout') }}" class="inline">
                     @csrf
                     <button type="submit" class="text-gray-700 hover:text-red-600">{{ __('Выйти')}}</button>
@@ -87,10 +96,13 @@
     <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200 px-6 py-4">
         <a href="/" class="block py-2 text-gray-700 hover:text-indigo-600 transition">{{ __("Негізгі бет")}}</a>
         <a href="/vipusk" class="block py-2 text-gray-700 hover:text-indigo-600 transition">{{ __("Басты шығарылым")}}</a>
-        <a href="/metod" class="block py-2 text-gray-700 hover:text-indigo-600 transition">{{ __("metod")}}</a>
-        <a href="/redac" class="block py-2 text-gray-700 hover:text-indigo-600 transition">{{ __("Редакция")}}</a>
+
         <a href="/editorials" class="block py-2 text-gray-700 hover:text-indigo-600 transition">{{ __("Журналдар")}}</a>
         <a href="/person" class="block py-2 text-gray-700 hover:text-indigo-600 transition">{{ __("Авторлар")}}</a>
+@role('author')
+        <a href="/metod" class="block py-2 text-gray-700 hover:text-indigo-600 transition">{{ __("metod")}}</a>
+        <a href="/redac" class="block py-2 text-gray-700 hover:text-indigo-600 transition">{{ __("Редакция")}}</a>
+@endrole
 
         @guest
             <a href="{{ route('login') }}" class="block py-2 text-indigo-600 font-medium">{{ __('Кіру/Тіркелу')}}</a>

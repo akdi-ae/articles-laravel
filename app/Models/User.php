@@ -84,10 +84,12 @@ class User extends Authenticatable
         ];
     }
 
-    public function editorials()
+public function editorials()
 {
-    return $this->hasMany(Editorial::class, 'user_id');
+    return $this->hasMany(\App\Models\Editorial::class);
 }
+
+
 public function getAvatarUrl()
 {
 
@@ -97,10 +99,7 @@ public function getAvatarUrl()
 
     return asset('css/default-avatar.png');
 }
-public function articles()
-{
-    return $this->hasMany(\App\Models\Article::class);
-}
+
 
 }
 ?>

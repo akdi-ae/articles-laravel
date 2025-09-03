@@ -28,11 +28,9 @@
         </p>
         <div class="mt-10 flex items-center justify-center gap-x-6">
           <a href="/vipusk" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow hover:bg-indigo-500">
-            Мақала жариялау
+            Мақала қарау
           </a>
-          <a href="/metod" class="text-sm font-semibold text-gray-900">
-            Нұсқаулық →
-          </a>
+
         </div>
       </div>
     </div>

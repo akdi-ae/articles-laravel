@@ -1,60 +1,73 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container mt-4">
-    <div class="card shadow-lg border-0 rounded-3">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <h4 class="mb-0">📑 Статьи после проверки редактора</h4>
-            <span class="badge bg-light text-dark">{{ $editorials->count() }} статей</span>
-        </div>
-        <div class="card-body">
-            @if($editorials->isEmpty())
-                <div class="alert alert-info text-center">
-                    Нет статей для проверки.
-                </div>
-            @else
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>ID</th>
-                                <th>Название</th>
-                                <th>Автор</th>
-                                <th>Статус</th>
-                                <th>Дата</th>
-                                <th class="text-center">Действия</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($editorials as $editorial)
-                                <tr>
-                                    <td><strong>#{{ $editorial->id }}</strong></td>
-                                    <td>{{ $editorial->title_kk }}</td>
-                                    <td>{{ $editorial->author_kk }}</td>
-                                    <td>
-                                        <span class="badge bg-warning text-dark">
-                                            {{ ucfirst($editorial->status) }}
-                                        </span>
-                                    </td>
-                                    <td>{{ $editorial->created_at->format('d.m.Y') }}</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('editorials.show', $editorial->id) }}" class="btn btn-sm btn-outline-info">
-                                            <i class="fas fa-eye"></i> Просмотр
-                                        </a>
-                                        <a href="{{ route('editorials.approve', $editorial->id) }}" class="btn btn-sm btn-outline-success">
-                                            <i class="fas fa-check"></i> Одобрить
-                                        </a>
-                                        <a href="{{ route('editorials.reject', $editorial->id) }}" class="btn btn-sm btn-outline-danger">
-                                            <i class="fas fa-times"></i> Отклонить
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            @endif
-        </div>
-    </div>
-</div>
+<table class="table table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Автор</th>
+            <th>Статус</th>
+            <th>Дата</th>
+            <th class="text-center">Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($editorials as $editorial)
+            <tr>
+                <td>#{{ $editorial->id }}</td>
+                <td>{{ $editorial->title_kk }}</td>
+                <td>{{ $editorial->author_kk }}</td>
+                <td>{{ $editorial->status }}</td>
+                <td>{{ $editorial->created_at->format('d.m.Y') }}</td>
+                <td class="text-center">
+    {{-- Кнопка просмотра --}}
+    <a href="{{ route('editorials.show', $editorial->id) }}" class="btn btn-sm btn-outline-info">
+        Просмотр
+    </a>
+                    @role('editor')
+                    {{-- Редактор --}}
+                  <form action="{{ route('editorials.approve', $editorial->id) }}" method="POST" style="display:inline;">
+    @csrf
+    @method('PATCH')
+    <button type="submit" class="btn btn-sm btn-outline-success">Одобрить</button>
+</form>
+
+@endrole
+                    {{-- Админ --}}
+                    @role('admin')
+                     @if($editorial->status === 'submitted' || $editorial->status === 'editor_approved')
+        <form action="{{ route('admin.editorials.adminApprove', $editorial->id)}}" method="POST" style="display:inline;">
+            @csrf
+            @method('PATCH')
+            <button type="submit" class="btn btn-sm btn-outline-success">Одобрить (к рецензенту)</button>
+        </form>
+    @endif
+
+    {{-- Если рецензент уже оценил --}}
+    @if($editorial->status === 'reviewed')
+        <form action="{{ route('admin.editorials.publish', $editorial->id)}}" method="POST" style="display:inline;">
+            @csrf
+            @method('PATCH')
+            <button type="submit" class="btn btn-sm btn-outline-primary">Опубликовать</button>
+        </form>
+    @endif
+@endrole
+
+
+@role('reviewer')
+
+                    {{-- Рецензент --}}
+                    <form action="{{ route('reviewer.editorials.review', $editorial->id) }}" method="POST">
+    @csrf
+    <input type="number" name="review_score" min="0" max="100" class="form-control mb-2" placeholder="Оценка (0-100)" required>
+    <button type="submit" class="btn btn-sm btn-outline-primary">Оценить</button>
+</form>
+@endrole
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
+
 @endsection

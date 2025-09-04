@@ -18,7 +18,7 @@
          class="transition-all duration-300">
         <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-3 md:py-4">
             <img src="logo-qyzpu.jpg" alt="Logo" class="w-8 h-8 object-contain">
-            <div class="text-lg font-bold text-indigo-600 tracking-wide">QyzPU</div>
+            <div class="text-lg font-bold text-indigo-600 tracking-wide"><abbr title="Qyzdar Pedagogikalik Universitety">QyzPU</abbr></div>
 
             <div class="hidden md:flex gap-6 text-lg font-medium">
                 <a href="/" class="hover:text-indigo-600">{{ __("Негізгі бет")}}</a>

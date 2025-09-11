@@ -18,15 +18,23 @@ If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Lar
 
 ##
 # Сайт для публикаций статьи
+В данном сайте вы можете опубликовать свою статью и отслеживать её статус до момента публикации.
 
-Краткое описание проекта: что это и для чего.
+## Роли
+В проекте предусмотрены следующие роли пользователей:
+- **Админ** — управляет пользователями и контентом.
+- **Редактор** — проверяет и редактирует статьи.
+- **Рецензент** — оценивает и оставляет замечания к статьям.
+- **Автор** — публикует свои статьи.
+- **Гость** — может просматривать сайт без авторизации.
+
 
 ## Установка и запуск
 
-git clone https://github.com/akdi-ae/projectname.git
-cd projectname
-composer install
-npm install
-cp .env.example .env
-php artisan migrate
-php artisan serve
+git clone https://github.com/akdi-ae/projectname.git.
+cd projectname.
+composer install.
+npm install.
+cp .env.example .env.
+php artisan migrate.
+php artisan serve.

@@ -17,8 +17,9 @@ You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you
 If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
 ##
-# Сайт для публикаций статьи
-В данном сайте вы можете опубликовать свою статью и отслеживать её статус до момента публикации.
+В данном сайте вы можете:
+- Опубликовать свою статью и отслеживать её статус до момента публикации (как автор).
+- Просматривать уже опубликованные статьи без авторизации (как гость).
 
 ## Роли
 В проекте предусмотрены следующие роли пользователей:

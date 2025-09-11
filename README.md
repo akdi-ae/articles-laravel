@@ -32,9 +32,16 @@ If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Lar
 ## Установка и запуск
 
 git clone https://github.com/akdi-ae/projectname.git.
+
 cd projectname.
+
 composer install.
+
 npm install.
+
 cp .env.example .env.
+
 php artisan migrate.
+
 php artisan serve.
+
